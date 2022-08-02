@@ -23,8 +23,8 @@ public class ParcelamentoServiceImpl implements ParcelamentoService {
 	@Override
 	public ParcelamentoSaida parcelar(final ParcelamentoEntrada entrada) {
 		log.debug("ParcelamentoServiceImpl#parcelar | entrada: {}", entrada);
-		final List<OpcaoParcelamentoSaida> saida = new ArrayList<>();
 
+		final List<OpcaoParcelamentoSaida> saida = new ArrayList<>();
 		final BigDecimal subTotal = sumarizarValorCoberturas(entrada.getListCobertura());
 
 		entrada.getListOpcaoParcelamento().forEach(opcaoParcelamento -> {
@@ -63,7 +63,8 @@ public class ParcelamentoServiceImpl implements ParcelamentoService {
 
 	private void validarParcelamento(final OpcaoParcelamentoEntrada opcaoParcelamento) {
 		if (opcaoParcelamento.getQuantidadeMinimaParcelas() > opcaoParcelamento.getQuantidadeMaximaParcelas())
-			throw new IllegalArgumentException("A quantidade mínima de parcelas não pode ser maior do que a máximo");
+			throw new IllegalArgumentException(
+					"A quantidade mínima de parcelas não pode ser maior do que a máxima: " + opcaoParcelamento);
 	}
 
 	private BigDecimal sumarizarValorCoberturas(final List<Cobertura> listCobertura) {

@@ -8,23 +8,19 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
-@Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class ParcelamentoEntrada implements Serializable {
 	private static final long serialVersionUID = -4902582066244479920L;
 
 	@Valid
 	@NotEmpty
-	private List<Cobertura> listCobertura;
+	private final List<Cobertura> listCobertura;
 
 	@Valid
 	@NotEmpty
-	private List<OpcaoParcelamentoEntrada> listOpcaoParcelamento;
+	private final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento;
 }

@@ -7,14 +7,12 @@ import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class OpcaoParcelamentoEntrada implements Serializable {
 	private static final long serialVersionUID = -6082804209861464324L;
@@ -28,4 +26,16 @@ public class OpcaoParcelamentoEntrada implements Serializable {
 	private int quantidadeMaximaParcelas;
 
 	private double juros = 0d;
+
+	/**
+	 * Construtor utilizado quando não há incidência de juros na opção de
+	 * parcelamento.
+	 *
+	 * @param quantidadeMinimaParcelas
+	 * @param quantidadeMaximaParcelas
+	 */
+	public OpcaoParcelamentoEntrada(final int quantidadeMinimaParcelas, final int quantidadeMaximaParcelas) {
+		this.quantidadeMinimaParcelas = quantidadeMinimaParcelas;
+		this.quantidadeMaximaParcelas = quantidadeMaximaParcelas;
+	}
 }

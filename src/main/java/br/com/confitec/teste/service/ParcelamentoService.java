@@ -6,7 +6,6 @@ import br.com.confitec.teste.domain.ParcelamentoSaida;
 public interface ParcelamentoService {
 
 	/**
-	 * <p>
 	 * Realiza o parcelamento da soma das coberturas informadas de acordo com os
 	 * planos de parcelamento solicitados.
 	 *

@@ -1,11 +1,10 @@
 server:
-  port: 8080
+  port: 8081
 
 logging:
   level:
     root: INFO
-    org:
-      springframework:
-        servlet:
-          DispatcherServlet: INFO
-        web: INFO
+    br:
+      com:
+        confitec:
+          teste: DEBUG
