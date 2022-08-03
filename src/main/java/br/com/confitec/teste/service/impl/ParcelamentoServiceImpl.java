@@ -57,7 +57,7 @@ public class ParcelamentoServiceImpl implements ParcelamentoService {
 
 	private BigDecimal calcularJuros(final BigDecimal subTotal, final int quantidadeParcelas, final double juros) {
 		return juros == 0 ? subTotal
-				: subTotal.multiply(BigDecimal.ONE.add(BigDecimal.valueOf(juros)).pow(quantidadeParcelas)).setScale(2,
+				: subTotal.multiply(BigDecimal.valueOf(1 + juros).pow(quantidadeParcelas)).setScale(2,
 						RoundingMode.HALF_UP);
 	}
 
