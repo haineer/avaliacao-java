@@ -10,7 +10,7 @@ A taxa de juros deverá ser aplicado ao valor total (soma das coberturas), utili
 - V = Valor total
 - i = Taxa de juros
 - t = Quantidade de parcelas
-**O parcelamento não se aplica para taxas de juros ou quantidade de parcelas negativas.**
+> O parcelamento não se aplica para taxas de juros ou quantidade de parcelas negativas.**
 
 ## Detalhes técnicos
 - Endpoint: /confitec/teste/parcelamento
