@@ -1,5 +1,6 @@
 # Avaliação Java II
 O valor pago por uma apólice de seguro é composto, basicamente, pela soma das coberturas contratadas. Com base nisso, elabore uma solução capaz de retornar o plano de pagamento de uma apólice de acordo com as opções solicitadas, aplicando ou não um percentual de juros no parcelamento.
+
 A implementação desse teste deve ser disponibilizada em um repositório Git com acesso público.
 
 ## Regras de negócio
