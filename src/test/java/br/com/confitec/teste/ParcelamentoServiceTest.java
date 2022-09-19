@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,7 @@ public class ParcelamentoServiceTest {
 	private ParcelamentoServiceImpl service;
 
 	@Test
+	@DisplayName("Sucesso - Parcelamento padrão")
 	public void parcelar() {
 		final List<Cobertura> listCobertura = new ArrayList<>();
 		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
@@ -44,6 +46,7 @@ public class ParcelamentoServiceTest {
 	}
 
 	@Test
+	@DisplayName("Sucesso - Parcelamento com somente uma opção")
 	public void parcelarUmaOpcao() {
 		final List<Cobertura> listCobertura = new ArrayList<>();
 		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
@@ -59,6 +62,7 @@ public class ParcelamentoServiceTest {
 	}
 
 	@Test
+	@DisplayName("Erro - Parcelamento com quantidade mínima maior do que a máxima")
 	public void parcelarQuantidadeMinimaMaiorQueMaxima() {
 		final List<Cobertura> listCobertura = new ArrayList<>();
 		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));

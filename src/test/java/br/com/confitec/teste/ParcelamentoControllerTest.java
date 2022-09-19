@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,116 +35,10 @@ public class ParcelamentoControllerTest {
 	@MockBean
 	private ParcelamentoService service;
 
-	@Test
-	void parcelamentoSemCobertura() {
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(Collections.emptyList(), listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
+	private static final String URL = "/confitec/teste/parcelamento";
 
 	@Test
-	void parcelamentoValorCoberturaNulo() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
-		listCobertura.add(new Cobertura(2, null));
-
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
-	void parcelamentoValorCoberturaZerado() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
-		listCobertura.add(new Cobertura(2, BigDecimal.ZERO));
-
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
-	void parcelamentoValorCoberturaNegativo() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(-123.12)));
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(345.45)));
-
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
-	void parcelamentoOpcaoVazia() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, Collections.emptyList()), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
-	void parcelamentoOpcaoMinimoZerado() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
-
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(0, 12));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
-	void parcelamentoOpcaoMaximoZerado() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
-
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 0));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
-	void parcelamentoOpcaoJurosNegativo() {
-		final List<Cobertura> listCobertura = new ArrayList<>();
-		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
-
-		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
-		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12, -0.01));
-
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
-				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
-
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	}
-
-	@Test
+	@DisplayName("Sucesso - Parcelamento OK")
 	void parcelamentoSucesso() {
 		final List<Cobertura> listCobertura = new ArrayList<>();
 		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
@@ -156,10 +51,127 @@ public class ParcelamentoControllerTest {
 
 		Mockito.when(service.parcelar(Mockito.any(ParcelamentoEntrada.class))).thenReturn(getParcelamentoExemplo());
 
-		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity("/confitec/teste/parcelamento",
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
 				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento sem cobertura")
+	void parcelamentoSemCobertura() {
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(Collections.emptyList(), listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento com valor de cobertura nulo")
+	void parcelamentoValorCoberturaNulo() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
+		listCobertura.add(new Cobertura(2, null));
+
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento com valor de cobertura zerado")
+	void parcelamentoValorCoberturaZerado() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
+		listCobertura.add(new Cobertura(2, BigDecimal.ZERO));
+
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento com valor de cobertura negativo")
+	void parcelamentoValorCoberturaNegativo() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(-123.12)));
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(345.45)));
+
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento sem opções")
+	void parcelamentoOpcaoVazia() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, Collections.emptyList()), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento com quantidade mínima de parcelas zerada")
+	void parcelamentoOpcaoMinimoZerado() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
+
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(0, 12));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento com quantidade máxima de parcelas zerada")
+	void parcelamentoOpcaoMaximoZerado() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
+
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 0));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	@Test
+	@DisplayName("Erro - Parcelamento com juros negativo")
+	void parcelamentoOpcaoJurosNegativo() {
+		final List<Cobertura> listCobertura = new ArrayList<>();
+		listCobertura.add(new Cobertura(1, BigDecimal.valueOf(123.12)));
+
+		final List<OpcaoParcelamentoEntrada> listOpcaoParcelamento = new ArrayList<>();
+		listOpcaoParcelamento.add(new OpcaoParcelamentoEntrada(1, 12, -0.01));
+
+		final ResponseEntity<ParcelamentoSaida> response = restTemplate.postForEntity(URL,
+				new ParcelamentoEntrada(listCobertura, listOpcaoParcelamento), ParcelamentoSaida.class);
+
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 	}
 
 	private ParcelamentoSaida getParcelamentoExemplo() {
