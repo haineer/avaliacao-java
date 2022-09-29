@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,18 +18,22 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "Opção Parcelamento Entrada", description = "Informações da opção de parcelamento (entrada)")
 public class OpcaoParcelamentoEntrada implements Serializable {
 	private static final long serialVersionUID = -6082804209861464324L;
 
 	@NotNull
 	@Positive
+	@Schema(required = true, description = "Quantidade mínima de parcelas (positivas)", example = "1")
 	private int quantidadeMinimaParcelas;
 
 	@NotNull
 	@Positive
+	@Schema(required = true, description = "Quantidade máxima de parcelas (positivas)", example = "99")
 	private int quantidadeMaximaParcelas;
 
 	@PositiveOrZero
+	@Schema(required = true, description = "Valor de Juros (positivo ou zero)", example = "0")
 	private double juros = 0d;
 
 	/**
