@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,14 +16,17 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "Parcelamento Entrada", description = "Informações de parcelamento (entrada)")
 public class ParcelamentoEntrada implements Serializable {
 	private static final long serialVersionUID = -4902582066244479920L;
 
 	@Valid
 	@NotEmpty
+	@Schema(required = true, description = "Lista de coberturas para cálculo")
 	private List<Cobertura> listCobertura;
 
 	@Valid
 	@NotEmpty
+	@Schema(required = true, description = "lista de opções de parcelamento para cálculo")
 	private List<OpcaoParcelamentoEntrada> listOpcaoParcelamento;
 }

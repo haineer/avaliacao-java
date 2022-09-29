@@ -1,23 +1,31 @@
-# Avaliação Java II
-O valor pago por uma apólice de seguro é composto, basicamente, pela soma das coberturas contratadas. Com base nisso, elabore uma solução capaz de retornar o plano de pagamento de uma apólice de acordo com as opções solicitadas, aplicando ou não um percentual de juros no parcelamento.
+# avaliacao-java
 
-A implementação desse teste deve ser disponibilizada em um repositório Git com acesso público.
+[![License](http://img.shields.io/:license-MIT.svg)](https://mit-license.org/)
 
-## Regras de negócio
-O resto da divisão do rateio é alocado na primeira parcela;
-A taxa de juros deverá ser aplicado ao valor total (soma das coberturas), utilizando a regra juros compostos:
-### P = V*(1 + i)^t, onde:
-- P = Valor a ser pago;
-- V = Valor total;
-- i = Taxa de juros;
-- t = Quantidade de parcelas.
-> O parcelamento não se aplica para taxas de juros ou quantidade de parcelas negativas.
+## Requisitos
 
-## Detalhes técnicos
-- Endpoint: */confitec/teste/parcelamento*;
-- Método: *POST*;
-- Request*: *https://pastecode.io/s/fz606jgw*;
-- Response*: *https://pastecode.io/s/0x8w819p*;
-- Projeto base: *https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.7.1&packaging=jar&jvmVersion=11&groupId=br.com.confitec&artifactId=teste&name=teste&description=Avalia%C3%A7%C3%A3o%20Java&packageName=br.com.confitec.teste&dependencies=web,devtools,lombok*;
-- A implementação de testes unitários, bem como a utilização de princípios SOLID, são diferenciais para a avaliação.
-> \* Talvez seja necessário criar uma conta na plataforma *PasteCode.io* para acessar o conteúdo.
+Para build e execução da aplicação, você vai precisar:
+
+- [JDK 11](http://www.oracle.com/technetwork/java/javase/downloads)
+- [Maven 3](https://maven.apache.org)
+
+## Rodando a aplicação localmente
+
+Existem diversas formas de executar uma aplicação Spring Boot localmente em sua maquina. Um dos métodos é a execução do método `main` na classe `br.com.confitec.teste.testeApplication` a partir de sua IDE.
+
+
+Alternativamente, você pode usar o [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html):
+
+```shell
+mvn spring-boot:run
+```
+
+## Documentação API
+
+A api conta com documentação automatizada no padrão OAS3. Para verificação de endpoints, rotas, especificação de objetos de envio e retorno, acesse:
+ - [Teste Confitec - OAS3](http://localhost:8081/swagger-ui/index.html)
+
+
+## Copyright
+
+[MIT License](https://mit-license.org/)

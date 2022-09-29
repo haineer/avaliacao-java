@@ -1,6 +1,8 @@
 server:
   port: 8081
-
+  app-description: '@project.description@'
+  app-version: '@project.version@'
+  
 logging:
   level:
     root: INFO
