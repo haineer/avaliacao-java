@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "Parcelamento Saída", description = "Lista de informações calculadas para parcelamento")
+@Schema(name = "Parcelamento saída", description = "Lista de informações calculadas para parcelamento")
 public class ParcelamentoSaida implements Serializable {
 	private static final long serialVersionUID = 8023409366542368131L;
 

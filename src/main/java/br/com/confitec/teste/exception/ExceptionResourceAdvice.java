@@ -19,19 +19,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ExceptionResourceAdvice {
 
 	@ResponseBody
-	@ExceptionHandler({ HttpMessageNotReadableException.class })
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Erro exceptionHandler(HttpMessageNotReadableException ex) {
+	@ExceptionHandler({ HttpMessageNotReadableException.class })
+	public Erro exceptionHandler(final HttpMessageNotReadableException ex) {
 		log.error(ex.getMessage());
 		return new Erro("Ocorreu um erro ao desserializar o objeto enviado", ex.getMessage());
 	}
 
 	@ResponseBody
-	@ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
 	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-	public Erro exceptionHandler(HttpRequestMethodNotSupportedException ex) {
+	@ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
+	public Erro exceptionHandler(final HttpRequestMethodNotSupportedException ex) {
 		log.error(ex.getMessage());
 		return new Erro("Método não permitido", ex.getMessage());
 	}
-
 }

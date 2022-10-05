@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "Opção Parcelamento Entrada", description = "Informações da opção de parcelamento (entrada)")
+@Schema(name = "Opção parcelamento entrada", description = "Informações da opção de parcelamento (entrada)")
 public class OpcaoParcelamentoEntrada implements Serializable {
 	private static final long serialVersionUID = -6082804209861464324L;
 
@@ -33,7 +33,7 @@ public class OpcaoParcelamentoEntrada implements Serializable {
 	private int quantidadeMaximaParcelas;
 
 	@PositiveOrZero
-	@Schema(required = true, description = "Valor de Juros (positivo ou zero)", example = "0")
+	@Schema(required = true, description = "Valor de juros (positivo ou zero)", example = "0")
 	private double juros = 0d;
 
 	/**

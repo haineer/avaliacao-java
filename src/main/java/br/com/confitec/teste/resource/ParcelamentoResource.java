@@ -31,7 +31,7 @@ public class ParcelamentoResource {
 	@Autowired
 	private ParcelamentoService service;
 
-	@Operation(summary = "Calculo de parcelamento", description = "Realiza o calculo de parcelamento dado as Opções de Parcelamento e Coberturas ", tags = {
+	@Operation(summary = "Calculo de parcelamento", description = "Realiza o cálculo de parcelamento dado as opções de parcelamento e coberturas ", tags = {
 			"Parcelamento" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParcelamentoSaida.class)), description = "Informações calculadas para parcelamento"),

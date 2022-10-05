@@ -12,13 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(name = "Erro", description = "Informações sobre erro encontrado na execução de cálculo")
 public class Erro implements Serializable {
-	
+
 	private static final long serialVersionUID = -7883551671320769072L;
 
-	@Schema(required = false, description = "Mensagem de erro definida pelo Desenvolvedor", example = "Método não permitido")
+	@Schema(required = false, description = "Mensagem de erro definida pelo desenvolvedor", example = "Método não permitido")
 	private String mensagemDesenvolvedor;
 
-	@Schema(required = false, description = "Mensagem de erro apresentada pela Exceção", example = "Method 'GET' not allowed")
+	@Schema(required = false, description = "Mensagem de erro apresentada pela exceção", example = "Method 'GET' not allowed")
 	private String mensagemExcecao;
-	
 }

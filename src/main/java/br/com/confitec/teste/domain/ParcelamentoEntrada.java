@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "Parcelamento Entrada", description = "Informações de parcelamento (entrada)")
+@Schema(name = "Parcelamento entrada", description = "Informações de parcelamento (entrada)")
 public class ParcelamentoEntrada implements Serializable {
 	private static final long serialVersionUID = -4902582066244479920L;
 
@@ -27,6 +27,6 @@ public class ParcelamentoEntrada implements Serializable {
 
 	@Valid
 	@NotEmpty
-	@Schema(required = true, description = "lista de opções de parcelamento para cálculo")
+	@Schema(required = true, description = "Lista de opções de parcelamento para cálculo")
 	private List<OpcaoParcelamentoEntrada> listOpcaoParcelamento;
 }

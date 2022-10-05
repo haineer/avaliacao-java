@@ -15,19 +15,19 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-@Schema(name = "Opção Parcelamento Saida", description = "Informações calculadas para parcelamento")
+@Schema(name = "Opção parcelamento saida", description = "Informações calculadas para parcelamento")
 public class OpcaoParcelamentoSaida implements Serializable {
 	private static final long serialVersionUID = -6082804209861464324L;
 
 	@Schema(required = false, description = "Quantidade de parcelas da opção de parcelamento", example = "1")
 	private final int quantidadeParcelas;
-	
+
 	@Schema(required = false, description = "Valor calculado para a primeira parcela", example = "10.00")
 	private final BigDecimal valorPrimeiraParcela;
 
 	@Schema(required = false, description = "Valor calculado para as demais parcelas", example = "10.00")
 	private BigDecimal valorDemaisParcelas;
-	
+
 	@Schema(required = false, description = "Valor total calculado", example = "100.00")
 	private final BigDecimal valorParcelamentoTotal;
 

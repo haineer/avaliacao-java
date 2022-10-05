@@ -23,11 +23,11 @@ public class Cobertura implements Serializable {
 	private static final long serialVersionUID = 5471298120683095697L;
 
 	@NotNull
-	@Schema(required = true, description = "Identificador da Cobertura", example = "1")
+	@Schema(required = true, description = "Identificador da cobertura", example = "1")
 	private int cobertura;
 
 	@NotNull
 	@Positive
-	@Schema(required = true, description = "Valor da Cobertura", example = "100.00")
+	@Schema(required = true, description = "Valor da cobertura", example = "100.00")
 	private BigDecimal valor;
 }
