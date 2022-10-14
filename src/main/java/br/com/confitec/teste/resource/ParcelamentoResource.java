@@ -35,6 +35,7 @@ public class ParcelamentoResource {
 			"Parcelamento" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParcelamentoSaida.class)), description = "Informações calculadas para parcelamento"),
+			@ApiResponse(responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Requisição inválida"),
 			@ApiResponse(responseCode = "405", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Método não suportado"),
 			@ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Ocorreu um erro na API") })
 	@PostMapping(produces = "application/json")
