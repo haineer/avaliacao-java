@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RestController
 @RequestMapping("/confitec/teste/parcelamento")
-@Tag(name = "Parcelamento", description = "Calculos de parcelamento")
+@Tag(name = "Parcelamento", description = "Cálculos de parcelamento")
 public class ParcelamentoResource {
 
 	@Autowired

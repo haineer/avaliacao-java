@@ -11,7 +11,7 @@ Para build e execução da aplicação, você vai precisar:
 
 ## Rodando a aplicação localmente
 
-Existem diversas formas de executar uma aplicação Spring Boot localmente em sua maquina. Um dos métodos é a execução do método `main` na classe `br.com.confitec.teste.testeApplication` a partir de sua IDE.
+Existem diversas formas de executar uma aplicação Spring Boot localmente em sua maquina. Um dos métodos é a execução do método `main` na classe `br.com.confitec.teste.TesteApplication` a partir de sua IDE.
 
 
 Alternativamente, você pode usar o [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html):
