@@ -27,6 +27,7 @@ public class MDCFilter extends GenericFilterBean {
 		final Instant inicio = Instant.now();
 		String requestUri = "";
 		String metodo = "";
+
 		try {
 			final HttpServletRequest httpRequest = (HttpServletRequest) request;
 			requestUri = httpRequest.getRequestURI();
