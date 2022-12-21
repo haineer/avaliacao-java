@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.confitec.teste.domain.Erro;
 import br.com.confitec.teste.domain.ParcelamentoEntrada;
 import br.com.confitec.teste.domain.ParcelamentoSaida;
+import br.com.confitec.teste.domain.rateio.ResultadoRateio;
+import br.com.confitec.teste.domain.rateio.SolicitacaoRateio;
 import br.com.confitec.teste.service.ParcelamentoService;
+import br.com.confitec.teste.service.RateioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,7 +34,10 @@ public class ParcelamentoResource {
 	@Autowired
 	private ParcelamentoService service;
 
-	@Operation(summary = "Calculo de parcelamento", description = "Realiza o cálculo de parcelamento dado as opções de parcelamento e coberturas ", tags = {
+	@Autowired
+	private RateioService rateioService;
+
+	@Operation(summary = "Parcelamento", description = "Realiza o cálculo de parcelamento dado as opções de parcelamento e coberturas", tags = {
 			"Parcelamento" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParcelamentoSaida.class)), description = "Informações calculadas para parcelamento"),
@@ -43,5 +49,19 @@ public class ParcelamentoResource {
 		log.debug("ParcelamentoSaida#parcelar | entrada: {}", entrada);
 
 		return new ResponseEntity<>(service.parcelar(entrada), HttpStatus.OK);
+	}
+
+	@Operation(summary = "Rateio de IOF", description = "Realiza o cálculo de parcelamento dado as opções de parcelamento e coberturas com o rateio diferenciado de IOF", tags = {
+			"Parcelamento" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParcelamentoSaida.class)), description = "Informações calculadas para rateio"),
+			@ApiResponse(responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Requisição inválida"),
+			@ApiResponse(responseCode = "405", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Método não suportado"),
+			@ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Ocorreu um erro na API") })
+	@PostMapping(value = "/rateio", produces = "application/json")
+	public ResponseEntity<ResultadoRateio> ratear(@Valid @RequestBody final SolicitacaoRateio entrada) {
+		log.debug("ParcelamentoSaida#ratear | entrada: {}", entrada);
+
+		return new ResponseEntity<>(rateioService.executarRateio(entrada), HttpStatus.OK);
 	}
 }
