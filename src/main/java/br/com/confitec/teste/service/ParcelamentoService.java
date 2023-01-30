@@ -10,6 +10,7 @@ public interface ParcelamentoService {
 	 * planos de parcelamento solicitados.
 	 *
 	 * @param entrada
+	 *
 	 * @return
 	 */
 	ParcelamentoSaida parcelar(final ParcelamentoEntrada entrada);
