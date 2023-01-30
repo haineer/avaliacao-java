@@ -20,7 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Schema(name = "Opção parcelamento entrada", description = "Informações da opção de parcelamento (entrada)")
 public class OpcaoParcelamentoEntrada implements Serializable {
-	private static final long serialVersionUID = -6082804209861464324L;
+	private static final long serialVersionUID = -7120613292198200078L;
 
 	@NotNull
 	@Positive

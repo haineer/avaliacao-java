@@ -1,4 +1,4 @@
-package br.com.confitec.teste;
+package br.com.confitec.teste.parcelamento;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
