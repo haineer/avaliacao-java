@@ -29,7 +29,7 @@ public class DescontoServiceTest {
 		final BigDecimal valorCompra = BigDecimal.ZERO
 				.add(new BigDecimal(Math.random()).multiply(BigDecimal.valueOf(1000).subtract(BigDecimal.ZERO)))
 				.setScale(2, RoundingMode.HALF_UP);
-		final int quantidadeParcelas = ThreadLocalRandom.current().nextInt(1, 6);
+		final int quantidadeParcelas = ThreadLocalRandom.current().nextInt(1, 7);
 
 		final BigDecimal valorFinal = service.calcularDesconto(valorCompra, quantidadeParcelas);
 
