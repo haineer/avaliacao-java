@@ -24,10 +24,10 @@ public class DescontoServiceTest {
 	private final Map<Integer, Double> mapParcelamento = Map.of(1, 0.9, 2, 0.92, 3, 0.94, 4, 0.96, 5, 0.98);
 
 	@Test
-	@DisplayName("Sucesso - C padrão")
+	@DisplayName("Sucesso - Cálculo aleatório de desconto")
 	public void calcularDesconto() {
 		final BigDecimal valorCompra = BigDecimal.ZERO
-				.add(new BigDecimal(Math.random()).multiply(BigDecimal.valueOf(1000).subtract(BigDecimal.ZERO)))
+				.add(BigDecimal.valueOf(Math.random()).multiply(BigDecimal.valueOf(999.99d).subtract(BigDecimal.ZERO)))
 				.setScale(2, RoundingMode.HALF_UP);
 		final int quantidadeParcelas = ThreadLocalRandom.current().nextInt(1, 7);
 

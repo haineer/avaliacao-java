@@ -41,7 +41,7 @@ public class AvaliacaoResource {
 	@Autowired
 	private ParcelamentoService parcelamentoService;
 
-	@Operation(summary = "Avaliação Java I", description = "Realiza o cálculo do valor final de uma compra, aplicando o valor de desconto adequado", tags = {
+	@Operation(summary = "Avaliação Java I", description = "Realiza o cálculo do valor final de uma compra aplicando o valor de desconto adequado", tags = {
 			"Confitec" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParcelamentoSaida.class)), description = "Valor da compra com desconto"),
@@ -52,7 +52,7 @@ public class AvaliacaoResource {
 	public ResponseEntity<BigDecimal> calcularValorCompra(
 			@Valid @NotNull @Positive @RequestParam final BigDecimal valorCompra,
 			@Valid @NotNull @Positive @RequestParam final int quantidadeParcela) {
-		log.debug("ParcelamentoSaida#calcularValorCompra | valorCompra: {}, quantidadeParcela: {}", valorCompra,
+		log.debug("AvaliacaoResource#calcularValorCompra | valorCompra: {}, quantidadeParcela: {}", valorCompra,
 				quantidadeParcela);
 
 		return new ResponseEntity<>(descontoService.calcularDesconto(valorCompra, quantidadeParcela), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class AvaliacaoResource {
 			@ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Ocorreu um erro na API") })
 	@PostMapping(value = "/parcelamento", produces = "application/json")
 	public ResponseEntity<ParcelamentoSaida> parcelar(@Valid @RequestBody final ParcelamentoEntrada entrada) {
-		log.debug("ParcelamentoSaida#parcelar | entrada: {}", entrada);
+		log.debug("AvaliacaoResource#parcelar | entrada: {}", entrada);
 
 		return new ResponseEntity<>(parcelamentoService.parcelar(entrada), HttpStatus.OK);
 	}
