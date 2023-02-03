@@ -31,7 +31,7 @@ public class DescontoServiceTest {
 
 		final BigDecimal valorFinal = service.calcularDesconto(valorCompra, quantidadeParcelas);
 
-		Assertions.assertTrue(valorFinal.divide(valorCompra, RoundingMode.HALF_UP)
-				.compareTo(BigDecimal.valueOf(mapParcelamento.getOrDefault(quantidadeParcelas, 1d))) == 0);
+		Assertions.assertEquals(valorFinal.divide(valorCompra, RoundingMode.HALF_UP)
+				.compareTo(BigDecimal.valueOf(mapParcelamento.getOrDefault(quantidadeParcelas, 1d))), 0);
 	}
 }
