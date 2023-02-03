@@ -26,14 +26,12 @@ public class DescontoServiceTest {
 	@Test
 	@DisplayName("Sucesso - Cálculo aleatório de desconto")
 	public void calcularDesconto() {
-		final BigDecimal valorCompra = BigDecimal.ZERO
-				.add(BigDecimal.valueOf(Math.random()).multiply(BigDecimal.valueOf(999.99d).subtract(BigDecimal.ZERO)))
-				.setScale(2, RoundingMode.HALF_UP);
+		final BigDecimal valorCompra = BigDecimal.valueOf(100);
 		final int quantidadeParcelas = ThreadLocalRandom.current().nextInt(1, 7);
 
 		final BigDecimal valorFinal = service.calcularDesconto(valorCompra, quantidadeParcelas);
 
 		Assertions.assertTrue(valorFinal.divide(valorCompra, RoundingMode.HALF_UP)
-				.equals(BigDecimal.valueOf(mapParcelamento.getOrDefault(quantidadeParcelas, 1d))));
+				.compareTo(BigDecimal.valueOf(mapParcelamento.getOrDefault(quantidadeParcelas, 1d))) == 0);
 	}
 }
