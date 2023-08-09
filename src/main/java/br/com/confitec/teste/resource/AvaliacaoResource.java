@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +43,7 @@ public class AvaliacaoResource {
 	@Operation(summary = "Avaliação Java I", description = "Realiza o cálculo do valor final de uma compra aplicando o valor de desconto adequado", tags = {
 			"Confitec" })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParcelamentoSaida.class)), description = "Valor da compra com desconto"),
+			@ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BigDecimal.class)), description = "Valor da compra com desconto"),
 			@ApiResponse(responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Requisição inválida"),
 			@ApiResponse(responseCode = "405", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Método não suportado"),
 			@ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Erro.class)), description = "Ocorreu um erro na API") })
@@ -55,7 +54,7 @@ public class AvaliacaoResource {
 		log.debug("AvaliacaoResource#calcularValorCompra | valorCompra: {}, quantidadeParcela: {}", valorCompra,
 				quantidadeParcela);
 
-		return new ResponseEntity<>(descontoService.calcularDesconto(valorCompra, quantidadeParcela), HttpStatus.OK);
+		return ResponseEntity.ok(descontoService.calcularDesconto(valorCompra, quantidadeParcela));
 	}
 
 	@Operation(summary = "Avaliação Java II", description = "Realiza o cálculo de parcelamento dado as opções de parcelamento e coberturas", tags = {
@@ -69,6 +68,6 @@ public class AvaliacaoResource {
 	public ResponseEntity<ParcelamentoSaida> parcelar(@Valid @RequestBody final ParcelamentoEntrada entrada) {
 		log.debug("AvaliacaoResource#parcelar | entrada: {}", entrada);
 
-		return new ResponseEntity<>(parcelamentoService.parcelar(entrada), HttpStatus.OK);
+		return ResponseEntity.ok(parcelamentoService.parcelar(entrada));
 	}
 }
