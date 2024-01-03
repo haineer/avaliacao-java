@@ -330,7 +330,7 @@ public class CalculoPrestamista {
 			final CoberturaPrestamistaEnum cobertura, final long idade, final boolean canalPresencial,
 			final boolean capitalFixo) {
 		if (capitalFixo)
-			return BigDecimal.valueOf(0.0000355);
+			return BigDecimal.valueOf(0.00002094);
 
 		switch (cobertura) {
 		case MNA:
@@ -520,7 +520,7 @@ public class CalculoPrestamista {
 	 */
 	private static BigDecimal calcularPremioLiquido(final BigDecimal premioNet) {
 		final Map<Integer, BigDecimal> mapComissao = new HashMap<>();
-		mapComissao.put(1, BigDecimal.valueOf(0.3334)); // Corretagem: 33,34%
+		mapComissao.put(1, BigDecimal.valueOf(0.6)); // Corretagem: 60%
 		mapComissao.put(5, BigDecimal.valueOf(0.0166)); // Remuneração: 1,66%
 
 		final BigDecimal pcComissao = mapComissao.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);

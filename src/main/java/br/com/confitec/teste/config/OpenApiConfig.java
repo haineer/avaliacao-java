@@ -12,7 +12,7 @@ import io.swagger.v3.oas.models.info.License;
 public class OpenApiConfig {
 
 	@Bean
-	public OpenAPI customOpenAPI(@Value("${server.app-description}") final String appDesciption,
+	OpenAPI customOpenAPI(@Value("${server.app-description}") final String appDesciption,
 			@Value("${server.app-version}") final String appVersion) {
 		return new OpenAPI().info(new Info().title("Teste Confitec").version(appVersion).description(appDesciption)
 				.license(new License().name("MIT").url("https://mit-license.org/")));
