@@ -32,7 +32,7 @@ import lombok.Getter;
  * <li>taxaJurosCDC</li>
  * <li>prazoEmDias</li>
  * </ul>
- * Exemplo: <code>1990-01-01 125000 1 1.35 1440</code>
+ * Exemplo: <code>1990-01-01 125000 1 1.35 1440 M 19</code>
  *
  * @author <a href="mailto:hainer.silva@confitec.com.br">Hainer Alan Silva</a>
  */
@@ -51,6 +51,13 @@ public class CalculoPrestamista {
 		final Integer tipoLinhaCredito = Integer.parseInt(args[2]);
 		final BigDecimal taxaJurosCDC = new BigDecimal(args[3]).divide(BigDecimal.valueOf(100));
 		final Integer prazoEmDias = Integer.parseInt(args[4]);
+		boolean calculoAnual = Boolean.TRUE;
+		int numParcela = 0;
+
+		if (args.length > 5) {
+			calculoAnual = Boolean.FALSE;
+			numParcela = Integer.parseInt(args[5]);
+		}
 
 		final long idade = ChronoUnit.YEARS.between(dataNascimento, LocalDate.now());
 
@@ -58,7 +65,7 @@ public class CalculoPrestamista {
 				prazoEmDias);
 		System.out.println(System.lineSeparator());
 		calcularCotacaoPrestamista(Arrays.asList(CoberturaPrestamistaEnum.values()), tipoLinhaCredito, valorEmprestimo,
-				taxaJurosCDC, prazoEmDias, idade);
+				taxaJurosCDC, prazoEmDias, idade, calculoAnual, numParcela);
 	}
 
 	/**
@@ -197,7 +204,7 @@ public class CalculoPrestamista {
 	 */
 	public static void calcularCotacaoPrestamista(final List<CoberturaPrestamistaEnum> listCobertura,
 			final Integer tipoLinhaCredito, final BigDecimal valorEmprestimo, final BigDecimal taxaJuros,
-			final Integer prazoEmDias, final long idade) {
+			final Integer prazoEmDias, final long idade, final boolean calculoAnual, final int numParcela) {
 		System.out.println("Emissão única | Capital segurado igual ao saldo devedor");
 
 		final AtomicReference<BigDecimal> premioNet = new AtomicReference<>(BigDecimal.ZERO);
@@ -215,8 +222,6 @@ public class CalculoPrestamista {
 		listCobertura.forEach(cobertura -> {
 			final BigDecimal taxaNet = recuperarTaxaNet(prazoEmDias, tipoLinhaCredito, cobertura, idade, Boolean.FALSE,
 					Boolean.FALSE);
-			final boolean calculoAnual = Boolean.TRUE;
-			final int numParcela = 19;
 
 			if (calculoAnual) {
 				if (cobertura.isTemporaria())
@@ -546,7 +551,7 @@ public class CalculoPrestamista {
 
 		final BigDecimal pcComissao = mapComissao.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		return premioNet.divide(BigDecimal.ONE.subtract(pcComissao), 4, RoundingMode.FLOOR);
+		return premioNet.divide(BigDecimal.ONE.subtract(pcComissao), 2, RoundingMode.FLOOR);
 	}
 
 	/**
@@ -558,7 +563,7 @@ public class CalculoPrestamista {
 	 * @return Valor de prêmio bruto.
 	 */
 	private static BigDecimal calcularPremioBruto(final BigDecimal premioLiquido, final BigDecimal aliquotaIof) {
-		return premioLiquido.multiply(aliquotaIof.add(BigDecimal.ONE)).setScale(4, RoundingMode.FLOOR);
+		return premioLiquido.multiply(aliquotaIof.add(BigDecimal.ONE)).setScale(2, RoundingMode.FLOOR);
 	}
 
 	/**
