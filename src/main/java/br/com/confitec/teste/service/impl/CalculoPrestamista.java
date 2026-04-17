@@ -54,6 +54,7 @@ public class CalculoPrestamista {
 
 		calcularCotacaoPrestamistaPoc(Collections.singletonList(CoberturaPrestamistaEnum.MNA), valorEmprestimo,
 				prazoEmDias);
+		System.out.println(System.lineSeparator());
 		calcularCotacaoPrestamista(Arrays.asList(CoberturaPrestamistaEnum.values()), tipoLinhaCredito, valorEmprestimo,
 				taxaJurosCDC, prazoEmDias, idade);
 	}
