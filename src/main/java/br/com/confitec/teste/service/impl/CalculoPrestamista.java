@@ -40,8 +40,10 @@ public class CalculoPrestamista {
 	private static final String ID_TRANSACAO = UUID.randomUUID().toString();
 	private static final NumberFormat FORMATTER = NumberFormat.getCurrencyInstance();
 
-//	@Autowired
-//	private static FuncaoBuscarFaixaReferencia funcaoBuscarFaixaReferencia;
+	private static final Map<Integer, BigDecimal> mapSaldoDevedorMargem = new HashMap<>();
+
+	// @Autowired
+	// private static FuncaoBuscarFaixaReferencia funcaoBuscarFaixaReferencia;
 
 	public static void main(final String[] args) {
 		final LocalDate dataNascimento = LocalDate.parse(args[0]);
@@ -213,13 +215,28 @@ public class CalculoPrestamista {
 		listCobertura.forEach(cobertura -> {
 			final BigDecimal taxaNet = recuperarTaxaNet(prazoEmDias, tipoLinhaCredito, cobertura, idade, Boolean.FALSE,
 					Boolean.FALSE);
+			final boolean calculoAnual = Boolean.TRUE;
+			final int numParcela = 19;
 
-			if (cobertura.isTemporaria())
-				premioNet.set(BigDecimal.valueOf(3).multiply(BigDecimal.ONE.add(margem)).multiply(valorParcela)
-						.multiply(taxaNet).multiply(BigDecimal.valueOf(prazoEmDias)).setScale(4, RoundingMode.FLOOR));
-			else
-				premioNet.set(valorSaldoDevedorMargem.multiply(taxaNet).multiply(BigDecimal.valueOf(quantidadeDiasMes))
-						.setScale(4, RoundingMode.FLOOR));
+			if (calculoAnual) {
+				if (cobertura.isTemporaria())
+					premioNet.set(BigDecimal.valueOf(3).multiply(BigDecimal.ONE.add(margem)).multiply(valorParcela)
+							.multiply(taxaNet).multiply(BigDecimal.valueOf(prazoEmDias))
+							.setScale(4, RoundingMode.FLOOR));
+				else
+					premioNet.set(
+							valorSaldoDevedorMargem.multiply(taxaNet).multiply(BigDecimal.valueOf(quantidadeDiasMes))
+									.setScale(4, RoundingMode.FLOOR));
+			} else {
+				if (cobertura.isTemporaria())
+					premioNet.set(BigDecimal.valueOf(3).multiply(BigDecimal.ONE.add(margem)).multiply(valorParcela)
+							.multiply(taxaNet).multiply(BigDecimal.valueOf(quantidadeDiasMes))
+							.setScale(4, RoundingMode.FLOOR));
+				else
+					premioNet.set(mapSaldoDevedorMargem.get(numParcela).multiply(taxaNet)
+							.multiply(BigDecimal.valueOf(quantidadeDiasMes))
+							.setScale(4, RoundingMode.FLOOR));
+			}
 
 			mapCalculoCobertura.put(cobertura,
 					calcularCoberturaPrestamista(taxaNet, premioNet.get(), cobertura.getAliquotaIof()));
@@ -290,7 +307,7 @@ public class CalculoPrestamista {
 	 */
 	private static BigDecimal recuperarMargem(final Integer prazoEmDias) {
 		final Object[] args = { ID_TRANSACAO, "tbPrestamistaMargem", prazoEmDias };
-//		return funcaoBuscarFaixaReferencia.executar(args);
+		// return funcaoBuscarFaixaReferencia.executar(args);
 
 		if (prazoEmDias >= 120 && prazoEmDias <= 730)
 			return BigDecimal.valueOf(0.06);
@@ -331,21 +348,22 @@ public class CalculoPrestamista {
 			final CoberturaPrestamistaEnum cobertura, final long idade, final boolean canalPresencial,
 			final boolean capitalFixo) {
 		if (capitalFixo)
-			return BigDecimal.valueOf(0.00002094);
+			return BigDecimal.valueOf(0.0000355);
 
 		switch (cobertura) {
-		case MNA:
-			return BigDecimal.valueOf(0.0000351);
-		case IPTA:
-			return BigDecimal.valueOf(0.0000023);
-		case DI_IFTA:
-			return BigDecimal.valueOf(0.0001621);
-		default:
-			final Object[] args = { ID_TRANSACAO, "tbPrestamistaTaxa", prazoEmDias, tipoLinhaCredito, cobertura.getId(),
-					idade, canalPresencial };
-//			return funcaoBuscarFaixaReferencia.executar(args);
+			case MNA:
+				return BigDecimal.valueOf(0.0000403);
+			case IPTA:
+				return BigDecimal.valueOf(0.0000023);
+			case DI_IFTA:
+				return BigDecimal.valueOf(0.0001621);
+			default:
+				final Object[] args = { ID_TRANSACAO, "tbPrestamistaTaxa", prazoEmDias, tipoLinhaCredito,
+						cobertura.getId(),
+						idade, canalPresencial };
+				// return funcaoBuscarFaixaReferencia.executar(args);
 
-			return BigDecimal.valueOf(0.0000355);
+				return BigDecimal.valueOf(0.0000355);
 		}
 	}
 
@@ -409,12 +427,14 @@ public class CalculoPrestamista {
 		final AtomicReference<BigDecimal> valorSaldoDevedorMargem = new AtomicReference<>(
 				valorPresente.multiply(BigDecimal.ONE.add(margem)).setScale(4, RoundingMode.FLOOR));
 
+		AtomicReference<Triple<BigDecimal, BigDecimal, BigDecimal>> saldoDevedorAtm = new AtomicReference<>();
 		IntStream.rangeClosed(1, prazoEmMeses).forEach(parcela -> {
-			final Triple<BigDecimal, BigDecimal, BigDecimal> saldoDevedor = calcularAmortizacao(taxaJuros, parcela,
-					valorSaldoDevedor.get(), valorParcela, margem);
+			saldoDevedorAtm.set(calcularAmortizacao(taxaJuros, parcela, valorSaldoDevedor.get(), valorParcela, margem));
 
-			valorSaldoDevedor.set(saldoDevedor.getMiddle());
-			valorSaldoDevedorMargem.getAndAccumulate(saldoDevedor.getRight(), BigDecimal::add);
+			valorSaldoDevedor.set(saldoDevedorAtm.get().getMiddle());
+			valorSaldoDevedorMargem.getAndAccumulate(saldoDevedorAtm.get().getRight(), BigDecimal::add);
+
+			mapSaldoDevedorMargem.put(parcela, saldoDevedorAtm.get().getRight());
 		});
 
 		return valorSaldoDevedorMargem.get();
@@ -521,7 +541,7 @@ public class CalculoPrestamista {
 	 */
 	private static BigDecimal calcularPremioLiquido(final BigDecimal premioNet) {
 		final Map<Integer, BigDecimal> mapComissao = new HashMap<>();
-		mapComissao.put(1, BigDecimal.valueOf(0.6)); // Corretagem: 60%
+		mapComissao.put(1, BigDecimal.valueOf(0.3334)); // Corretagem: 60%
 		mapComissao.put(5, BigDecimal.valueOf(0.0166)); // Remuneração: 1,66%
 
 		final BigDecimal pcComissao = mapComissao.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
